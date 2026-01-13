@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.UserMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">  # 后两个参数是为了返回dish的自增主键id
+        insert into user (openid, name, phone, sex, id_number, avatar, create_time)
+        values (#{openid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime})
+    </insert>
+
+    <select id="getUserStatistics" resultType="int">
+        select count(id) from user
+        <where>
+            <if test="times[0] != null">
+                and create_time &lt;= #{times[0]}
+            </if>
+            <if test="times.length > 1 and times[1] != null">
+                and create_time &gt;= #{times[1]}
+            </if>
+        </where>
+    </select>
+</mapper>
